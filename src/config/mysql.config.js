@@ -17,11 +17,11 @@ class MysqlConfig {
   connect() {
     if (!this.getConnection()) {
       this.getInstance().connection = new Mysql({
-        host: process.env.MYSQL_HOST,
-        user: process.env.MYSQL_USER,
-        password: process.env.MYSQL_PASSWORD,
-        database: process.env.MYSQL_DATABASE,
-        port: process.env.MYSQL_PORT,
+        host: this.environmentShared.getEnv('MYSQL_HOST'),
+        user: this.environmentShared.getEnv('MYSQL_USER'),
+        password: this.environmentShared.getEnv('MYSQL_PASSWORD'),
+        database: this.environmentShared.getEnv('MYSQL_DATABASE'),
+        port: this.environmentShared.getEnv('MYSQL_PORT'),
         dateStrings: true,
       });
       console.log(
@@ -47,27 +47,4 @@ execQuery(query) {
 
 module.exports = new MysqlConfig();
 
-// const db = new MysqlConfig();
-// const result  = db.execQuery('select * from User')
-// console.log(result)
-// const dotenv = require('dotenv');
-// dotenv.config({
-//     path: `env-files/.config.${process.env.NODE_ENV || "dev"}.env`,
-//   });
-// const db =new Mysql({
-//     host: process.env.MYSQL_HOST,
-//     user: process.env.MYSQL_USER,
-//     password: process.env.MYSQL_PASSWORD,
-//     database: process.env.MYSQL_DATABASE,
-//     port: process.env.MYSQL_PORT,
-//     dateStrings: true,
-//   });
-//   console.log(
-//     "[INFO] - Database is connected: ",
-//     db
-//   );
 
-// console.log('[INFO] - Database is connected',!!db)
-
-// const result = db.query(`select * from User`)
-// console.log(result)

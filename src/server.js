@@ -10,4 +10,3 @@ expressConfig.getServer().listen(serverPort, () => {
   console.log(`[INFO] - server is up running on port ${serverPort}`);
 });
 
-     
