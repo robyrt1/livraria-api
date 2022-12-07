@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start:dev": "nodemon ./src/server.js",
-    "test": "node ./src/shared/validators/user/http.Client.shared.js"
+    "test": "node ./src/shared/validators/user/http.Client.shared.js",
+    "samel": "node index.js"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",

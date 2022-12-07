@@ -17,5 +17,11 @@ class PurchaseController {
         const result = await this.PurchaseService.create(req.body);
         res.status(result.statusCode).json(result);
       }
+
+      dashBoardSalePerCustome(req, res ,next){
+        const  { id_customer } = req.params
+        const result = this.PurchaseService.dashBoardSalePerCustomer(id_customer)
+        res.status(result.statusCode).json(result)
+      }
 }
 module.exports = {PurchaseController}

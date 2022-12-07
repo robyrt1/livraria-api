@@ -6,18 +6,17 @@ const {
   NO_CONTENT,
   NOT_FOUND,
 } = require("../../shared/constants/http.codes");
-const dayjs = require("dayjs");
 const { JoiValidator } = require("../../shared/validators/joi.validator");
-const db = require("../../config/mysql.config");
-
+const { BookRepository } = require("../../repositories/book.repository");
 class BookService {
   constructor() {
     this.joiValidator = new JoiValidator();
+    this.bookRepository = new BookRepository();
   }
 
   findAll() {
     try {
-      const result = db.execQuery("select * from Book");
+      const result = this.bookRepository.findAll();
       return {
         status: true,
         message: "Sucesso ao fazer a requisição",
@@ -34,27 +33,14 @@ class BookService {
   }
 
   findOneByid(id) {
-    const result = db.execQuery(`select * from Book where id = ${id}`);
+    const result = this.bookRepository.findOneById(id);
     return { statusCode: OK, data: result };
   }
 
   findOneByBarcode(barcode) {
-    const result = db.execQuery(
-      `select * from Book where barcode = ${barcode}`
-    );
-    return { statusCode: OK, data: result };
-  }
-
-  findOneByEmail(email) {
     try {
-      const result = db.execQuery(
-        `select * from Book where id = ${body.email}`
-      );
-      return {
-        status: true,
-        message: "Sucesso ao fazer a requisição",
-        data: result,
-      };
+      const result = this.bookRepository.findOneByBarcode(barcode);
+      return { statusCode: OK, data: result };
     } catch (err) {
       console.error("[ERROR] => ", err);
       throw {
@@ -67,28 +53,7 @@ class BookService {
 
   create(body) {
     try {
-      const code = Math.floor(Math.random() * 9999999999999);
-      body.barcode = `${code}`;
-      const result = db.execQuery(
-        `INSERT INTO Book 
-        (
-          publishId,
-          genreId,
-          title,
-          author,
-          barcode,
-          price,
-          createdAt)  
-        values 
-        (
-          '${body.publishId}',
-          '${body.genreId}',
-          '${body.title}',
-          '${body.author}',
-          '${body.barcode}',
-          '${body.price}',
-          '${dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")}');`
-      );
+      const result = this.bookRepository.create(body);
 
       const data = result?.affecRows < 0 ? "was not inserted" : "inserted";
       return {

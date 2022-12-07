@@ -16,10 +16,11 @@ class BookController {
     res.status(result.statusCode).json(result);
   }
 
-  // findOneByBarcode(req, res, next) {
-  //   const result = this.bookService.findOneByBarcode(req.params.barcode);
-  //   res.status(result.statu).json(result)
-  // }
+  findOneByBarcode(req, res, next) {
+    const { barcode } = req.params
+    const result = this.bookService.findOneByBarcode(barcode);
+    res.status(result.statusCode).json(result)
+  }
 
    create(req, res, next) {
     const result =  this.bookService.create(req.body);
